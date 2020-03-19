@@ -14,12 +14,12 @@ public class Server
     public static void main(String args[]) throws Exception
     {
         DatagramChannel chan = DatagramChannel.open();
-        chan.socket().bind( new InetSocketAddress( 7877 ) );
+        chan.socket().bind( new InetSocketAddress( 9999 ) );
         chan.configureBlocking(false);
 
         Selector selector = Selector.open();
         chan.register(selector,SelectionKey.OP_READ);
-        ByteBuffer buffer = ByteBuffer.allocate(4*1024);
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
 
         while (true) {
             selector.select();
@@ -31,7 +31,7 @@ public class Server
 
                 if (key.isReadable()) {
                     buffer.clear();
-                    buffer.put(new byte[4*1024]);
+                    buffer.put(new byte[1024]);
                     buffer.clear();
                     action(buffer, key);
                 }
@@ -49,10 +49,15 @@ public class Server
         System.out.println("патключаус к нон блок аналу");
         SocketAddress from = channel.receive(buffer);
         System.out.println("внатуре успех");
+        ByteBuffer finalBuffer = ByteBuffer.allocate(buffer.position());
+
+        for (int i = 0; i < buffer.position(); ++i){
+            finalBuffer.put(i, buffer.get(i));
+        }
 
         if (from != null) {
             buffer.flip();
-            String val = new String(buffer.array());
+            String val = new String(finalBuffer.array());
             System.out.println(from);
             System.out.println(channel);
             System.out.println("Сервер получил по ебалу: "+val);

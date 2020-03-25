@@ -1,25 +1,43 @@
+import ClassCollection.CollectionTask;
+import ServerPackage.CollectionUnit;
+import ServerPackage.IWillNameItLater.WrongTypeOfFieldException;
+import ServerPackage.IWillNameItLater.receiver;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-public class Server
+public class ServerMain
 {
     private static final String hui = "hui";
-
+    private static CollectionTask collectionTask;
+    private static receiver CU;
 
     public static void main(String args[]) throws Exception
     {
+
+        collectionTask = new CollectionTask();
+        try {
+            collectionTask.load(args[0]);
+            CU = new CollectionUnit(collectionTask, args[0]);
+        }catch (Exception ex){
+            collectionTask.load("C:\\Users\\user\\Documents\\test\\src\\PersonClassTest.json");
+            CU = new CollectionUnit(collectionTask, "C:\\Users\\user\\Documents\\test\\src\\PersonClassTest.json");
+        }
+
+
         DatagramChannel chan = DatagramChannel.open();
         chan.socket().bind( new InetSocketAddress( 9999 ) );
         chan.configureBlocking(false);
 
         Selector selector = Selector.open();
         chan.register(selector,SelectionKey.OP_READ);
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        ByteBuffer buffer = ByteBuffer.allocate(4*1024);
 
         while (true) {
             selector.select();
@@ -31,7 +49,7 @@ public class Server
 
                 if (key.isReadable()) {
                     buffer.clear();
-                    buffer.put(new byte[1024]);
+                    buffer.put(new byte[4*1024]);
                     buffer.clear();
                     action(buffer, key);
                 }
@@ -62,7 +80,19 @@ public class Server
             System.out.println(channel);
             System.out.println("Сервер получил по ебалу: "+val);
 
-            channel.send(ByteBuffer.wrap(hui.getBytes()),from);
+            try {
+                String userCommand[] = val.split("=");
+                HashMap<String, String> fields = new HashMap<>();
+                for (int i=1; i < userCommand.length; i+=2){
+                    fields.put(userCommand[i], userCommand[i+1]);
+                    collectionTask.getCommandMap().get(userCommand[0]).getTransporter().SetParams(fields); //костыль чтоб работал, потом переделать нормально (добавить всем тарнспортер)
+                }
+                collectionTask.getCommandMap().get(userCommand[0]).execute(CU);
+            } catch (WrongTypeOfFieldException e) {
+                e.printStackTrace();
+            }
+
+            channel.send(ByteBuffer.wrap(CU.getResponse().getBytes()),from);
         }
 
         System.out.println( "отрубаюсь" );

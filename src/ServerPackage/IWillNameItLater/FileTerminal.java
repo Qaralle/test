@@ -25,7 +25,7 @@ public class FileTerminal extends Terminal {
      * @throws FileNotFoundException файл не найден
      */
     public FileTerminal(String file_name_, Scanner scan, receiver rec_ ) throws FileNotFoundException {
-        /*super(rec_,scan);
+        super(rec_,scan);
 
         this.file_name=file_name_;
         this.scan=scan;
@@ -47,7 +47,7 @@ public class FileTerminal extends Terminal {
         exit=new Exit();
         history=new History();
         addIfMin = new AddIfMin(new FileTransporter(scan));
-        help=new Help();*/
+        help=new Help();
 
 
         /*
@@ -79,7 +79,7 @@ public class FileTerminal extends Terminal {
         files_names.add(file_name);
 
         if (i==true) {
-            //this.interactiveMod("");
+            this.interactiveMod("");
             files_names.clear();
         }
 

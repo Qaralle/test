@@ -2,6 +2,7 @@ import ClassCollection.CollectionTask;
 import ServerPackage.CollectionUnit;
 import ServerPackage.IWillNameItLater.WrongTypeOfFieldException;
 import ServerPackage.IWillNameItLater.receiver;
+import ServerPackage.StorePrintStream;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -14,9 +15,11 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 public class ServerMain
 {
+    private static StorePrintStream SustemOut = new StorePrintStream(System.out);
     private static final String hui = "hui";
     private static CollectionTask collectionTask;
     private static receiver CU;
+    private static String str;
 
     public static void main(String args[]) throws Exception
     {
@@ -26,8 +29,8 @@ public class ServerMain
             collectionTask.load(args[0]);
             CU = new CollectionUnit(collectionTask, args[0]);
         }catch (Exception ex){
-            collectionTask.load("C:\\Users\\user\\Documents\\test\\src\\PersonClassTest.json");
-            CU = new CollectionUnit(collectionTask, "C:\\Users\\user\\Documents\\test\\src\\PersonClassTest.json");
+            collectionTask.load("C:\\Users\\proge\\IdeaProjects\\test\\src\\PersonClassTest.json");
+            CU = new CollectionUnit(collectionTask, "C:\\Users\\proge\\IdeaProjects\\test\\src\\PersonClassTest.json");
         }
 
 
@@ -92,12 +95,16 @@ public class ServerMain
                 e.printStackTrace();
             }
 
-            channel.send(ByteBuffer.wrap(CU.getResponse().getBytes()),from);
+            //
+            if (!CU.getResponse().equals("")){
+                channel.send(ByteBuffer.wrap(CU.getResponse().getBytes()),from);
+            }else {
+                str = SustemOut.getLast();
+                ByteBuffer lol = ByteBuffer.wrap(str.getBytes());
+                channel.send(lol, from);
+            }
         }
-
         System.out.println( "отрубаюсь" );
-        TimeUnit.SECONDS.sleep( 5 );
-
     }
 
 }

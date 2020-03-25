@@ -1,17 +1,11 @@
-import ClassCollection.CollectionTask;
-import ClientPackage.ConsoleTerminal;
-import ClientPackage.Terminal;
-import ServerPackage.IWillNameItLater.receiver;
-
-import java.io.*;
-import java.net.*;
+import ClientPackage.Validator3000;
 
 public class ClientMain
 {
     public static void main(String args[]) throws Exception
     {
 
-        Terminal terminal = new ConsoleTerminal();
+        Validator3000 terminal = new Validator3000();
         terminal.interactiveMod("$");
 
 /*        BufferedReader inFromUser =

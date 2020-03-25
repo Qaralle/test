@@ -1,7 +1,6 @@
 package ClassCollection;
 
 import ColClass.Person;
-
 import ServerPackage.IWillNameItLater.ConsoleTransporter;
 import ServerPackage.Сommands.*;
 import com.google.gson.Gson;
@@ -47,7 +46,7 @@ public class CollectionTask {
     private String dateInit;
     private String[] historyOfCommands;
 
-    private HashMap<String, Command> commandMap;
+    private Map<String, Command> commandMap;
 
     {
         //nullPolice = new NullPolice();
@@ -172,6 +171,6 @@ public class CollectionTask {
 
     public String[] getHistoryOfCommands(){return historyOfCommands;}
 
-    public HashMap<String, Command> getCommandMap(){ return commandMap;}
+    public Map<String, Command> getCommandMap(){ return commandMap;}
 }
 

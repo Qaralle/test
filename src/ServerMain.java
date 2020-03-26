@@ -100,13 +100,11 @@ public class ServerMain
 
             //
 
-            if (!CU.getResponse().equals("")){
-                channel.send(ByteBuffer.wrap(CU.getResponse().getBytes()),from);
-            }else {
                 str = SustemOut.sendTxt()+"\n$";
+                SustemOut.clear();
                 ByteBuffer lol = ByteBuffer.wrap(str.getBytes());
                 channel.send(lol, from);
-            }
+
         }
         System.out.println( "отрубаюсь" );
     }

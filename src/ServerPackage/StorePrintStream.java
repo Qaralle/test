@@ -40,5 +40,9 @@ public class StorePrintStream extends PrintStream {
         return res;
     }
 
+    public void clear(){
+        printList.clear();
+    }
+
     // And so on for double etc..
 }

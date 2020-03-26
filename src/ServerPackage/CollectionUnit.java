@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  */
 public class CollectionUnit implements receiver {
 
-
+    private static StorePrintStream SystemOut = new StorePrintStream(System.out);
     private CollectionTask ct;
     private CompareCenter compareCenter;
     private CoordinatesMaker cm;
@@ -43,6 +43,7 @@ public class CollectionUnit implements receiver {
 
     private String file_name;
     private String response = "";
+
 
     /**
      * @param CT Объект класса CollectionTask
@@ -89,7 +90,7 @@ public class CollectionUnit implements receiver {
         fp.PersonReplace(per);
         ct.add(per);
         response = "Element added";
-
+        SystemOut.print(response);
     }
 
 
@@ -106,10 +107,12 @@ public class CollectionUnit implements receiver {
                 }else{
                     response += "\n" + "name: " + s.getName() + " id: " + s.getId() + " date: " + s.getData() + " hair color: " + s.getHairColor() + " location: " + s.location.getName() + " Х " + s.coordinates.getX();
                 }
+
             }
         }else {
             response = "Коллекция пуста";
         }
+        SystemOut.print(response);
     }
 
     /**
@@ -124,6 +127,7 @@ public class CollectionUnit implements receiver {
         /*System.out.println("Тип коллекции: "+parameterizedType+
                             " Дата иницализации: "+ct.getDateInit()+
                             " Количество элементов: "+ct.GetCollection().size());*/
+        SystemOut.print(response);
     }
 
     /**
@@ -146,6 +150,7 @@ public class CollectionUnit implements receiver {
 
         ct.GetCollection().get(index).setEverything(nameP_, coo, height_, eyeColor_, hairColor_, nationality_, loc);
         System.out.println("Обновлен объект с id = "+id);
+        SystemOut.print(response);
 
         //this.show();
     }
@@ -157,6 +162,7 @@ public class CollectionUnit implements receiver {
     public void clear() {
         ct.GetCollection().clear();
         response = "Коллекция очищена.";
+        SystemOut.print(response);
         //this.show();
     }
 
@@ -176,6 +182,7 @@ public class CollectionUnit implements receiver {
         }if (size==ct.GetCollection().size()){
             response = "Объекта с таким id нет";
         }
+        SystemOut.print(response);
     }
 
     /**
@@ -193,6 +200,7 @@ public class CollectionUnit implements receiver {
         }else{
             response = "Коллекция уже пуста";
         }
+        SystemOut.print(response);
     }
 
     /**
@@ -211,6 +219,7 @@ public class CollectionUnit implements receiver {
         }if (size==ct.GetCollection().size()){
             response = "Объекта с такой национальностью нет";
         }
+        SystemOut.print(response);
     }
 
     /**
@@ -228,6 +237,7 @@ public class CollectionUnit implements receiver {
 
         Stream<Person> personStream = ct.GetCollection().stream();
         response = String.valueOf(personStream.filter(person -> person.getLocation().compareTo(loc) > 0).count());
+        SystemOut.print(response);
     }
 
     /**
@@ -244,6 +254,7 @@ public class CollectionUnit implements receiver {
                 }
             }
         }
+        SystemOut.print(response);
         /*Iterator<Person> it = ct.GetCollection().iterator();
         while (it.hasNext()){
             Person p = it.next();
@@ -272,6 +283,7 @@ public class CollectionUnit implements receiver {
         fileOutputStream.write("]".getBytes());
         response = "Коллекция сохранена в файл";
         fileOutputStream.close();
+        SystemOut.print(response);
     }
 
     /**
@@ -310,6 +322,7 @@ public class CollectionUnit implements receiver {
                 }
             }
         }
+        SystemOut.print(response);
     }
 
     /**
@@ -346,6 +359,7 @@ public class CollectionUnit implements receiver {
                 response = "Элемент добавлен!";
             }
 
+        SystemOut.print(response);
     }
 
     /**
@@ -372,6 +386,7 @@ public class CollectionUnit implements receiver {
         response += "\n" + "count_less_than_location: Вывести количество элементов коллекции, значения поля location которых меньше заданного. Синтаксис: count_less_than_location location";
         response += "\n" + "filter_starts_with_name: Вывести элементы коллекции, имя которых начинается с заданной подстроки. Синтаксис: filter_starts_with_name string";
         response += "\n" + "Все команды, синтаксис которых не обозначен в описании команды вводятся просто вводом названия команды без каких-либо символов после них.";
+        SystemOut.print(response);
     }
 
     @Override

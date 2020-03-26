@@ -1,5 +1,6 @@
 package ClientPackage;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.*;
@@ -45,7 +46,7 @@ public class Validator3000 implements invoker {
 
         while (true) {
 
-
+            System.out.print(del);
             if (scan.hasNextLine()) {
 
                 try {
@@ -56,6 +57,7 @@ public class Validator3000 implements invoker {
                     userCommand_[0] = userCommand_[0].toLowerCase();
 
                     switch (userCommand_[0]) {
+
                         case ("add"):
                             if (userCommand_.length==1) {
                                 key = "add";
@@ -64,7 +66,7 @@ public class Validator3000 implements invoker {
                                 sendSmth(data);
                                 //add.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -74,7 +76,7 @@ public class Validator3000 implements invoker {
                                 sendSmth(key);
                                 //show.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -84,7 +86,7 @@ public class Validator3000 implements invoker {
                                 sendSmth(key);
                                 //info.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -117,7 +119,7 @@ public class Validator3000 implements invoker {
                                 key = "clear";
                                 sendSmth(key);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -130,7 +132,7 @@ public class Validator3000 implements invoker {
                                 key = "remove_by_id";
                                 sendSmth(key+"="+"id"+"="+userCommand_[1]);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -141,7 +143,7 @@ public class Validator3000 implements invoker {
                                 key = "remove_head";
                                 sendSmth(key);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -154,7 +156,7 @@ public class Validator3000 implements invoker {
                                 key = "remove_any_by_nationality";
                                 sendSmth(key+"="+"nationality"+"="+userCommand_[1]);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -167,7 +169,7 @@ public class Validator3000 implements invoker {
                                 key = "count_less_than_location";
                                 sendSmth(key+"="+"location"+"="+userCommand_[1]);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -180,7 +182,7 @@ public class Validator3000 implements invoker {
                                 key = "filter_starts_with_name";
                                 sendSmth(key+"="+"name"+"="+userCommand_[1]);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -191,7 +193,7 @@ public class Validator3000 implements invoker {
                                 key = "save";
                                 sendSmth(key);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -200,10 +202,14 @@ public class Validator3000 implements invoker {
                             if(userCommand_.length == 2) {
                                 //executeScript.getTransporter().SetParams(bufferMap);
                                 //executeScript.execute(res);
+                                File file = new File(userCommand_[1]);
+                                if (file.exists()==false){
+                                    throw new FileNotFoundException();
+                                }
                                 key = "execute_script";
                                 sendSmth(key+"="+"file_name"+"="+userCommand_[1]);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -213,7 +219,7 @@ public class Validator3000 implements invoker {
                                 key = "exit";
                                 sendSmth(key);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                         case ("history"):
                             if (userCommand_.length==1) {
@@ -221,7 +227,7 @@ public class Validator3000 implements invoker {
                                 key = "history";
                                 sendSmth(key);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -234,7 +240,7 @@ public class Validator3000 implements invoker {
                                 String data = key+fieldSetter.getStringToSend();
                                 sendSmth(data);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
@@ -245,14 +251,14 @@ public class Validator3000 implements invoker {
                                 key = "help";
                                 sendSmth(key);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
                             break;
 
 
                         default:
                             if (!userCommand_[0].equals("")) {
-                                System.out.println("Кажется, что-то пошло не так. Чтобы посмотреть доступные команды, используйте 'help'");
+                                System.out.print("Кажется, что-то пошло не так. Чтобы посмотреть доступные команды, используйте 'help'"+"\n$");
                             }
                             break;
 
@@ -263,10 +269,10 @@ public class Validator3000 implements invoker {
                 } catch (ArrayIndexOutOfBoundsException ex) {
                     System.out.println("Wrong syntax. Please use 'help'");
 
-                } /*catch (FileNotFoundException ex) {
+                } catch (FileNotFoundException ex) {
                     System.out.println("Файл не найден");
 
-                }*/ catch (WrongTypeOfFieldException e) {
+                } catch (WrongTypeOfFieldException e) {
                     e.printStackTrace();
                 }
 
@@ -292,6 +298,6 @@ public class Validator3000 implements invoker {
         for (int i = 0; i < size; ++i){
             finalReceiveData[i] = receiveData[i];
         }
-        System.out.println(new String(finalReceiveData));
+        System.out.print(new String(finalReceiveData));
     }
 }

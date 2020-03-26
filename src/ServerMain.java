@@ -9,9 +9,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 public class ServerMain
 {
@@ -20,6 +18,7 @@ public class ServerMain
     private static CollectionTask collectionTask;
     private static receiver CU;
     private static String str;
+    private static List<String> sendText= new ArrayList<>();
 
     public static void main(String args[]) throws Exception
     {
@@ -31,6 +30,8 @@ public class ServerMain
         }catch (Exception ex){
             collectionTask.load("C:\\Users\\proge\\IdeaProjects\\test\\src\\PersonClassTest.json");
             CU = new CollectionUnit(collectionTask, "C:\\Users\\proge\\IdeaProjects\\test\\src\\PersonClassTest.json");
+
+
         }
 
 
@@ -70,6 +71,7 @@ public class ServerMain
         System.out.println("патключаус к нон блок аналу");
         SocketAddress from = channel.receive(buffer);
         System.out.println("внатуре успех");
+
         ByteBuffer finalBuffer = ByteBuffer.allocate(buffer.position());
 
         for (int i = 0; i < buffer.position(); ++i){
@@ -97,10 +99,11 @@ public class ServerMain
             }
 
             //
+
             if (!CU.getResponse().equals("")){
                 channel.send(ByteBuffer.wrap(CU.getResponse().getBytes()),from);
             }else {
-                str = SustemOut.getLast();
+                str = SustemOut.sendTxt()+"\n$";
                 ByteBuffer lol = ByteBuffer.wrap(str.getBytes());
                 channel.send(lol, from);
             }

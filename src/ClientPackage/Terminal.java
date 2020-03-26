@@ -82,25 +82,26 @@ public abstract class Terminal implements invoker {
     @Override
     public void interactiveMod(String del) throws FileNotFoundException {
         while (true) {
-            System.out.print(del);
+
             if (scan.hasNextLine()) {
                 try {
                     userCommand = scan.nextLine();
                     userCommand_ = userCommand.trim().split(" ", 2);
                     userCommand_[0] = userCommand_[0].toLowerCase();
                     switch (userCommand_[0]) {
+
                         case ("add"):
                             if (userCommand_.length==1) {
                                 add.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("show"):
                             if (userCommand_.length==1) {
                                 show.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
 
                             break;
@@ -109,13 +110,13 @@ public abstract class Terminal implements invoker {
                             if (userCommand_.length==1) {
                                 info.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("update"):
                             if (userCommand_.length == 2) {
                                 if (res.getCT().GetCollection().size()==0){
-                                    System.out.println("Коллекция пуста!");
+                                    SystemOut.print("Коллекция пуста!");
                                 }else {
                                     bufferMap.put("id", userCommand_[1].trim());
                                     for (int i = 0; i < res.getCT().GetCollection().size(); ++i) {
@@ -126,19 +127,19 @@ public abstract class Terminal implements invoker {
                                             break;
                                         }
                                         if (i == res.getCT().GetCollection().size() - 1) {
-                                            System.out.println("Объекта с таким id нет");
+                                            SystemOut.print("Объекта с таким id нет");
                                         }
                                     }
                                 }
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("clear"):
                             if (userCommand_.length==1) {
                                 clear.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("remove_by_id"):
@@ -147,14 +148,14 @@ public abstract class Terminal implements invoker {
                                 remove_by_id.getTransporter().SetParams(bufferMap);
                                 remove_by_id.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("remove_head"):
                             if (userCommand_.length==1) {
                                 removeHead.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("remove_any_by_nationality"):
@@ -163,7 +164,7 @@ public abstract class Terminal implements invoker {
                                 removeAnyByNationality.getTransporter().SetParams(bufferMap);
                                 removeAnyByNationality.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("count_less_than_location"):
@@ -172,7 +173,7 @@ public abstract class Terminal implements invoker {
                                 countLessThanLocation.getTransporter().SetParams(bufferMap);
                                 countLessThanLocation.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("filter_starts_with_name"):
@@ -181,14 +182,14 @@ public abstract class Terminal implements invoker {
                                 filterStartsWithName.getTransporter().SetParams(bufferMap);
                                 filterStartsWithName.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("save"):
                             if (userCommand_.length==1) {
                                 save.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("execute_script"):
@@ -197,46 +198,46 @@ public abstract class Terminal implements invoker {
                                 executeScript.getTransporter().SetParams(bufferMap);
                                 executeScript.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("exit"):
                             if (userCommand_.length==1) {
                                 exit.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                         case ("history"):
                             if (userCommand_.length==1) {
                                 history.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("add_if_min"):
                             if (userCommand_.length==1) {
                                 addIfMin.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                             }
                             break;
                         case ("help"):
                             if (userCommand_.length==1) {
                                 help.execute(res);
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                SystemOut.print("Неверный синтаксис команды. Используйте help.");
                              }
                             break;
                         default:
                             if (!userCommand_[0].equals("")) {
-                                SystemOut.println("Кажется, что-то пошло не так. Чтобы посмотреть доступные команды, используйте 'help'");
-                            }
+                                SystemOut.print("Кажется, что-то пошло не так. Чтобы посмотреть доступные команды, используйте 'help'");
+                    }
                             break;
                     }
                 } catch (ArrayIndexOutOfBoundsException ex) {
-                    System.out.println("Wrong syntax. Please use 'help'");
+                    SystemOut.print("Wrong syntax. Please use 'help'");
                 } catch (FileNotFoundException ex) {
-                    System.out.println("Файл не найден");
+                    SystemOut.print("Файл не найден");
                 } catch (WrongTypeOfFieldException e) {
                     e.printStackTrace();
                 }

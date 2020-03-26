@@ -93,6 +93,7 @@ public class ServerMain
                 collectionTask.getCommandMap().get(userCommand[0]).execute(CU);
             } catch (WrongTypeOfFieldException e) {
                 e.printStackTrace();
+                
             }
 
             //

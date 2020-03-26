@@ -43,10 +43,10 @@ public class Validator3000 implements invoker {
     public void interactiveMod(String del) throws IOException, SocketException, UnknownHostException {
 
 
-
+        System.out.print(del);
         while (true) {
 
-            System.out.print(del);
+
             if (scan.hasNextLine()) {
 
                 try {

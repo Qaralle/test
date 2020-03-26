@@ -1,4 +1,5 @@
 import ClassCollection.CollectionTask;
+import ColClass.Person;
 import ServerPackage.CollectionUnit;
 import ServerPackage.IWillNameItLater.WrongTypeOfFieldException;
 import ServerPackage.IWillNameItLater.receiver;
@@ -10,7 +11,8 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
+
 public class ServerMain
 {
     private static StorePrintStream SustemOut = new StorePrintStream(System.out);
@@ -28,10 +30,10 @@ public class ServerMain
             collectionTask.load(args[0]);
             CU = new CollectionUnit(collectionTask, args[0]);
         }catch (Exception ex){
-            collectionTask.load("C:\\Users\\proge\\IdeaProjects\\test\\src\\PersonClassTest.json");
-            CU = new CollectionUnit(collectionTask, "C:\\Users\\proge\\IdeaProjects\\test\\src\\PersonClassTest.json");
-
-
+            /*collectionTask.load("C:\\Users\\proge\\IdeaProjects\\test\\src\\PersonClassTest.json");
+            CU = new CollectionUnit(collectionTask, "C:\\Users\\proge\\IdeaProjects\\test\\src\\PersonClassTest.json");*/
+            collectionTask.load("C:\\Users\\user\\Documents\\test\\src\\PersonClassTest.json");
+            CU = new CollectionUnit(collectionTask,"C:\\Users\\user\\Documents\\test\\src\\PersonClassTest.json");
         }
 
 
@@ -88,22 +90,28 @@ public class ServerMain
             try {
                 String userCommand[] = val.split("=");
                 HashMap<String, String> fields = new HashMap<>();
-                for (int i=1; i < userCommand.length; i+=2){
-                    fields.put(userCommand[i], userCommand[i+1]);
-                    collectionTask.getCommandMap().get(userCommand[0]).getTransporter().SetParams(fields); //костыль чтоб работал, потом переделать нормально (добавить всем тарнспортер)
+                if((userCommand[0].equals("update")) && (userCommand.length == 2)){
+                    Stream<Person> personStream = CU.getCT().GetCollection().stream();
+                    if(personStream.anyMatch(person -> person.getId() == Long.parseLong(userCommand[1]))){
+                        SustemOut.print("Объект с таким id найден");
+                    }else SustemOut.print("Объект с таким id не найден");
+                }else {
+                    for (int i = 1; i < userCommand.length; i += 2) {
+                        fields.put(userCommand[i], userCommand[i + 1]);
+                        collectionTask.getCommandMap().get(userCommand[0]).getTransporter().SetParams(fields); //костыль чтоб работал, потом переделать нормально (добавить всем тарнспортер)
+                    }
+                    collectionTask.getCommandMap().get(userCommand[0]).execute(CU);
                 }
-                collectionTask.getCommandMap().get(userCommand[0]).execute(CU);
             } catch (WrongTypeOfFieldException e) {
                 e.printStackTrace();
                 
             }
-
-            //
-
-                str = SustemOut.sendTxt()+"\n$";
+             if(SustemOut.getLast().equals("Объект с таким id найден")) str = SustemOut.sendTxt()+"\n";
+                else str = SustemOut.sendTxt()+"$";
                 SustemOut.clear();
                 ByteBuffer lol = ByteBuffer.wrap(str.getBytes());
                 channel.send(lol, from);
+                CU.setResponse("");
 
         }
         System.out.println( "отрубаюсь" );

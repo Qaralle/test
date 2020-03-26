@@ -2,6 +2,8 @@ package ServerPackage.Сommands;
 
 
 import java.io.FileNotFoundException;
+
+import ServerPackage.IWillNameItLater.WrongTypeOfFieldException;
 import ServerPackage.IWillNameItLater.*;
 
 /**
@@ -24,7 +26,6 @@ public class Update extends CommandWithPars{
      */
     @Override
     public void execute(receiver res) throws FileNotFoundException, WrongTypeOfFieldException {
-        transporter.setFields(res);
         this.setFieldsFromTransporter();
         res.update(id, name, height, eyeColor, hairColor, nationality, x, y, x1, y1, name1, transporter.getIndex());
         res.addCommandToHistory("update");

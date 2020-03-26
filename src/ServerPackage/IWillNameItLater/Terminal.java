@@ -1,15 +1,12 @@
-package ClientPackage;
+package ServerPackage.IWillNameItLater;
 
 
-import ServerPackage.IWillNameItLater.WrongTypeOfFieldException;
-import ServerPackage.IWillNameItLater.receiver;
+import ClientPackage.invoker;
 import ServerPackage.StorePrintStream;
 import ServerPackage.Сommands.*;
 
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -23,7 +20,7 @@ import java.util.Scanner;
 
  */
 
-public abstract class Terminal implements invoker {
+public abstract class Terminal {
 
     //protected Transporter transporter;
     protected static StorePrintStream SystemOut = new StorePrintStream(System.out);
@@ -79,8 +76,8 @@ public abstract class Terminal implements invoker {
 
      */
 
-    @Override
-    public void interactiveMod(String del) throws FileNotFoundException {
+
+    public void startWorking(String del) throws FileNotFoundException {
         while (true) {
 
             if (scan.hasNextLine()) {

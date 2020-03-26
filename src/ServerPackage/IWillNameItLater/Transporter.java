@@ -62,7 +62,7 @@ public abstract class Transporter implements SetterParams<Map<String,String>> {
         this.y = Double.parseDouble(bar1.getOrDefault("y", "1"));
         this.y1 = Double.parseDouble(bar1.getOrDefault("y1", "1"));
         this.x1 = Float.parseFloat(bar1.getOrDefault("x1", "1"));
-    }
+}
 
 
 

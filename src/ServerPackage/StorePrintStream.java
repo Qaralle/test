@@ -3,6 +3,7 @@ package ServerPackage;
 import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class StorePrintStream extends PrintStream {
 
@@ -18,9 +19,10 @@ public class StorePrintStream extends PrintStream {
         super.println(line);
     }
 
-    public List getLast() {
-        return printList;
+    public String getLast() {
+        return printList.get(printList.size() - 1);
     }
+
 
     @Override
     public void print(String line) {

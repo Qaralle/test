@@ -1,15 +1,13 @@
 package ClientPackage;
 
+import ServerPackage.IWillNameItLater.WrongTypeOfFieldException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.*;
 import java.util.Map;
 import java.util.Scanner;
-
-import ServerPackage.IWillNameItLater.WrongTypeOfFieldException;
-import ServerPackage.IWillNameItLater.receiver;
-import ServerPackage.Сommands.*;
 
 /**
  * Абстрактный класс, выполняющий функци инвокера
@@ -90,28 +88,19 @@ public class Validator3000 implements invoker {
                             }
                             break;
 
-                        /*case ("update"):
+                        case ("update"):
                             if (userCommand_.length == 2) {
-                                if (res.getCT().GetCollection().size()==0){
-                                    System.out.println("Коллекция пуста!");
-                                }else {
-                                    bufferMap.put("id", userCommand_[1].trim());
-                                    for (int i = 0; i < res.getCT().GetCollection().size(); ++i) {
-                                        if (Long.parseLong(bufferMap.get("id")) == res.getCT().GetCollection().get(i).getId()) {
-                                            bufferMap.put("index", String.valueOf(i));
-                                            update.getTransporter().SetParams(bufferMap);
-                                            update.execute(res);
-                                            break;
-                                        }
-                                        if (i == res.getCT().GetCollection().size() - 1) {
-                                            System.out.println("Объекта с таким id нет");
-                                        }
-                                    }
+                                key = "update";
+                                sendSmth(key+"="+userCommand_[1]);
+                                String s = new String(finalReceiveData);
+                                if(s.equals("Объект с таким id найден\n")){
+                                    fieldSetter.setFields();
+                                    sendSmth(key+"="+"id"+"="+userCommand_[1]+fieldSetter.getStringToSend());
                                 }
                             }else {
-                                System.out.println("Неверный синтаксис команды. Используйте help.");
+                                System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
-                            break;*/
+                            break;
 
                         case ("clear"):
                             if (userCommand_.length==1) {
@@ -126,7 +115,8 @@ public class Validator3000 implements invoker {
 
                         case ("remove_by_id"):
                             if(userCommand_.length == 2) {
-                                bufferMap.put("file_name", userCommand_[1].trim());
+                                long checkType = Long.parseLong(userCommand_[1]);
+                                //bufferMap.put("file_name", userCommand_[1].trim());
                                 //remove_by_id.getTransporter().SetParams(bufferMap);
                                 //remove_by_id.execute(res);
                                 key = "remove_by_id";
@@ -150,9 +140,10 @@ public class Validator3000 implements invoker {
 
                         case ("remove_any_by_nationality"):
                             if(userCommand_.length == 2) {
-                                bufferMap.put("nationality", userCommand_[1].trim());
+                                //bufferMap.put("nationality", userCommand_[1].trim());
                                 //removeAnyByNationality.getTransporter().SetParams(bufferMap);
                                 //removeAnyByNationality.execute(res);
+                                userCommand_[1] = userCommand_[1].toUpperCase();
                                 key = "remove_any_by_nationality";
                                 sendSmth(key+"="+"nationality"+"="+userCommand_[1]);
                             }else {
@@ -217,7 +208,12 @@ public class Validator3000 implements invoker {
                             if (userCommand_.length==1) {
                                 //exit.execute(res);
                                 key = "exit";
-                                sendSmth(key);
+                                try {
+                                    sendSmth(key);
+                                }catch (SocketTimeoutException ex){
+                                    System.out.println("Закрываем клиент и сервер");
+                                    System.exit(0);
+                                }
                             }else {
                                 System.out.print("Неверный синтаксис команды. Используйте help."+"\n$");
                             }
@@ -264,16 +260,17 @@ public class Validator3000 implements invoker {
 
 
                     }
-
-
-                } catch (ArrayIndexOutOfBoundsException ex) {
-                    System.out.println("Wrong syntax. Please use 'help'");
+                } catch (NumberFormatException ex) {
+                    System.out.println("Неподходящее значения для поля\n$");
 
                 } catch (FileNotFoundException ex) {
-                    System.out.println("Файл не найден");
+                    System.out.println("Файл не найден\n$");
 
                 } catch (WrongTypeOfFieldException e) {
                     e.printStackTrace();
+                }catch (SocketTimeoutException ex){
+                    System.out.println("Превышен интервал ожидания");
+                    System.exit(0);
                 }
 
             }else break;
@@ -290,7 +287,7 @@ public class Validator3000 implements invoker {
         sendData = sentence.getBytes();
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9999);
         clientSocket.send(sendPacket);
-
+        clientSocket.setSoTimeout(5000);
         DatagramPacket hui = new DatagramPacket(receiveData,receiveData.length);
         clientSocket.receive(hui);
         int size = hui.getLength();
@@ -299,5 +296,6 @@ public class Validator3000 implements invoker {
             finalReceiveData[i] = receiveData[i];
         }
         System.out.print(new String(finalReceiveData));
+
     }
 }

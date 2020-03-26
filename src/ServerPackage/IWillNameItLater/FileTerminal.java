@@ -1,6 +1,5 @@
 package ServerPackage.IWillNameItLater;
 
-import ClientPackage.Terminal;
 import ServerPackage.Сommands.*;
 
 import java.io.FileNotFoundException;
@@ -79,7 +78,7 @@ public class FileTerminal extends Terminal {
         files_names.add(file_name);
 
         if (i==true) {
-            this.interactiveMod("");
+            this.startWorking("");
             files_names.clear();
         }
 

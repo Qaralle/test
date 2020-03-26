@@ -43,6 +43,7 @@ public class CollectionUnit implements receiver {
 
     private String file_name;
     private String response = "";
+    private Stream<Person> personStream;
 
 
     /**
@@ -89,7 +90,7 @@ public class CollectionUnit implements receiver {
         np.PersonReplace(per);
         fp.PersonReplace(per);
         ct.add(per);
-        response = "Element added";
+        response = "Element added"+"\n";
         SystemOut.print(response);
     }
 
@@ -100,15 +101,8 @@ public class CollectionUnit implements receiver {
     @Override
     public void show() {
         if (ct.GetCollection().size() > 0) {
-            for (int i=0; i<ct.GetCollection().size(); ++i){
-                Person s = ct.GetCollection().get(i);
-                if(i==0){
-                    response = "name: " + s.getName() + " id: " + s.getId() + " date: " + s.getData() + " hair color: " + s.getHairColor() + " location: " + s.location.getName() + " Х " + s.coordinates.getX();
-                }else{
-                    response += "\n" + "name: " + s.getName() + " id: " + s.getId() + " date: " + s.getData() + " hair color: " + s.getHairColor() + " location: " + s.location.getName() + " Х " + s.coordinates.getX();
-                }
-
-            }
+            personStream = ct.GetCollection().stream();
+            personStream.forEach(p -> response +="name: " + p.getName() + " id: " + p.getId() + " date: " + p.getData() + " hair color: " + p.getHairColor() + " location: " + p.location.getName() + " Х " + p.coordinates.getX()+"\n");
         }else {
             response = "Коллекция пуста";
         }
@@ -123,10 +117,7 @@ public class CollectionUnit implements receiver {
         ParameterizedType parameterizedType =(ParameterizedType)ct.GetCollection().getClass().getGenericSuperclass();
         response = "Тип коллекции: "+parameterizedType+
                 " Дата иницализации: "+ct.getDateInit()+
-                " Количество элементов: "+ct.GetCollection().size();
-        /*System.out.println("Тип коллекции: "+parameterizedType+
-                            " Дата иницализации: "+ct.getDateInit()+
-                            " Количество элементов: "+ct.GetCollection().size());*/
+                " Количество элементов: "+ct.GetCollection().size()+"\n";
         SystemOut.print(response);
     }
 
@@ -145,14 +136,12 @@ public class CollectionUnit implements receiver {
         loc.SetX(x1_);
         loc.SetY(y1_);
         loc.SetName(nameL_);
-        //np.LocationReplace(loc);
         fp.LocationReplace(loc);
 
-        ct.GetCollection().get(index).setEverything(nameP_, coo, height_, eyeColor_, hairColor_, nationality_, loc);
-        System.out.println("Обновлен объект с id = "+id);
+        personStream = ct.GetCollection().stream();
+        personStream.filter(person -> person.getId() == id).forEach(person -> person.setEverything(nameP_, coo, height_, eyeColor_, hairColor_, nationality_, loc));
+        response = "Обновлен объект с id = "+id+"\n";
         SystemOut.print(response);
-
-        //this.show();
     }
 
     /**
@@ -161,9 +150,8 @@ public class CollectionUnit implements receiver {
     @Override
     public void clear() {
         ct.GetCollection().clear();
-        response = "Коллекция очищена.";
+        response = "Коллекция очищена."+"\n";
         SystemOut.print(response);
-        //this.show();
     }
 
     /**
@@ -171,17 +159,11 @@ public class CollectionUnit implements receiver {
      */
     @Override
     public void remove_by_id(long id) {
-        int size = ct.GetCollection().size();
-        Iterator<Person> it = ct.GetCollection().iterator();
-        while (it.hasNext()){
-            Person p = it.next();
-            if(p.getId() == id){
-                it.remove();
-                response = "Удален объект с айди = "+id; break;
-            }
-        }if (size==ct.GetCollection().size()){
-            response = "Объекта с таким id нет";
-        }
+        personStream = ct.GetCollection().stream();
+        if(personStream.peek(person -> per = person).anyMatch(person -> person.getId() == id)) {
+            ct.GetCollection().remove(per);
+            response = "Удален объект с айди = "+id+"\n";
+        }else response = "Объекта с таким id нет"+"\n";
         SystemOut.print(response);
     }
 
@@ -195,10 +177,10 @@ public class CollectionUnit implements receiver {
                     " id: " + ct.GetCollection().get(0).getId() +
                     " date: " + ct.GetCollection().get(0).getData() +
                     " hair color: " + ct.GetCollection().get(0).getHairColor() +
-                    " location: " + ct.GetCollection().get(0).location.getName();
+                    " location: " + ct.GetCollection().get(0).location.getName()+"\n";
             ct.GetCollection().remove(0);
         }else{
-            response = "Коллекция уже пуста";
+            response = "Коллекция уже пуста"+"\n";
         }
         SystemOut.print(response);
     }
@@ -208,17 +190,11 @@ public class CollectionUnit implements receiver {
      */
     @Override
     public void removeAnyByNationality(Country nationality) {
-        int size = ct.GetCollection().size();
-        Iterator<Person> it = ct.GetCollection().iterator();
-        while (it.hasNext()){
-            Person p = it.next();
-            if(p.getNationality().equals( nationality)){
-                it.remove();
-                response = "Удален объект по национальности = "+nationality; break;
-            }
-        }if (size==ct.GetCollection().size()){
-            response = "Объекта с такой национальностью нет";
-        }
+        personStream = ct.GetCollection().stream();
+        if(personStream.peek(person -> per = person).anyMatch(person -> person.getNationality() == nationality)) {
+            ct.GetCollection().remove(per);
+            response = "Удален объект с национальностью = "+nationality+"\n";
+        }else response = "Объекта с такой национальностью нет"+"\n";
         SystemOut.print(response);
     }
 
@@ -232,11 +208,10 @@ public class CollectionUnit implements receiver {
         loc.SetX(1f);
         loc.SetY(1);
         loc.SetName(namel);
-        //np.LocationReplace(loc);
         fp.LocationReplace(loc);
 
-        Stream<Person> personStream = ct.GetCollection().stream();
-        response = String.valueOf(personStream.filter(person -> person.getLocation().compareTo(loc) > 0).count());
+        personStream = ct.GetCollection().stream();
+        response = personStream.filter(person -> person.getLocation().compareTo(loc) > 0).count()+"\n";
         SystemOut.print(response);
     }
 
@@ -245,23 +220,9 @@ public class CollectionUnit implements receiver {
      */
     @Override
     public void filterStartsWithName(String name) {
-        for (int i=0; i<ct.GetCollection().size(); ++i){
-            if(ct.GetCollection().get(i).getName().startsWith(name)){
-                if(i==0){
-                    response = ct.GetCollection().get(i).getName();
-                }else{
-                    response += "\n" + ct.GetCollection().get(i).getName();
-                }
-            }
-        }
+        personStream = ct.GetCollection().stream();
+        personStream.filter(person -> person.getName().startsWith(name)).forEach(person -> response+=person.getName()+"\n");
         SystemOut.print(response);
-        /*Iterator<Person> it = ct.GetCollection().iterator();
-        while (it.hasNext()){
-            Person p = it.next();
-            if(p.getName().startsWith(name)){
-               response += p.getName();
-            }
-        }*/
     }
 
     /**
@@ -281,7 +242,7 @@ public class CollectionUnit implements receiver {
             }
         }
         fileOutputStream.write("]".getBytes());
-        response = "Коллекция сохранена в файл";
+        response = "Коллекция сохранена в файл"+"\n";
         fileOutputStream.close();
         SystemOut.print(response);
     }
@@ -292,12 +253,7 @@ public class CollectionUnit implements receiver {
      */
     @Override
     public void executeScript(String file_name) throws FileNotFoundException {
-
         FileTerminal ft = new FileTerminal(file_name, new Scanner(new File(file_name)), this);
-
-
-
-
     }
 
     /**
@@ -318,7 +274,7 @@ public class CollectionUnit implements receiver {
                 if(i == 0){
                     response = ct.getHistoryOfCommands()[i];
                 }else{
-                    response += "\n"+ ct.getHistoryOfCommands()[i];
+                    response += "\n"+ ct.getHistoryOfCommands()[i]+"\n";
                 }
             }
         }
@@ -356,7 +312,7 @@ public class CollectionUnit implements receiver {
                 np.PersonReplace(per);
                 fp.PersonReplace(per);
                 ct.add(per);
-                response = "Элемент добавлен!";
+                response = "Элемент добавлен!"+"\n";
             }
 
         SystemOut.print(response);
@@ -385,7 +341,7 @@ public class CollectionUnit implements receiver {
         response += "\n" + "remove_any_by_nationality: Удалить один элемент коллекции, с заданной национальностью. Синтаксис: remove_any_by_nationality nationality";
         response += "\n" + "count_less_than_location: Вывести количество элементов коллекции, значения поля location которых меньше заданного. Синтаксис: count_less_than_location location";
         response += "\n" + "filter_starts_with_name: Вывести элементы коллекции, имя которых начинается с заданной подстроки. Синтаксис: filter_starts_with_name string";
-        response += "\n" + "Все команды, синтаксис которых не обозначен в описании команды вводятся просто вводом названия команды без каких-либо символов после них.";
+        response += "\n" + "Все команды, синтаксис которых не обозначен в описании команды вводятся просто вводом названия команды без каких-либо символов после них."+"\n";
         SystemOut.print(response);
     }
 
@@ -412,6 +368,8 @@ public class CollectionUnit implements receiver {
     public String getResponse() {
         return response;
     }
+    @Override
+    public void setResponse(String str) {response = str;}
 
 
 }

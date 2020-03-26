@@ -2,6 +2,8 @@ package ServerPackage.Сommands;
 
 
 import java.io.FileNotFoundException;
+
+import ServerPackage.IWillNameItLater.WrongTypeOfFieldException;
 import ServerPackage.IWillNameItLater.*;
 
 /**

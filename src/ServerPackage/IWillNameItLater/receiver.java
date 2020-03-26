@@ -32,4 +32,5 @@ public interface receiver {
     CollectionTask getCT();
     void addCommandToHistory(String userCommand);
     String getResponse();
+    void setResponse(String str);
 }

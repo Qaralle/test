@@ -4,7 +4,6 @@ import ColClass.Color;
 import ColClass.Country;
 import ColClass.Location;
 import ServerPackage.IWillNameItLater.WrongTypeOfFieldException;
-import ServerPackage.IWillNameItLater.receiver;
 
 import java.util.Arrays;
 import java.util.Scanner;

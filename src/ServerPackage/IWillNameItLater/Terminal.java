@@ -1,8 +1,7 @@
 package ServerPackage.IWillNameItLater;
 
 
-import ClientPackage.invoker;
-import ServerPackage.StorePrintStream;
+import ServerPackage.Log4J2;
 import ServerPackage.Сommands.*;
 
 
@@ -13,17 +12,13 @@ import java.util.Scanner;
 
 
 /**
-
- * Абстрактный класс, выполняющий функци инвокера
-
+ * Абстрактный класс, необходимый для выполнения команд в скрипте
  * @author Maxim Antonov and Andrey Lyubkin
-
  */
-
 public abstract class Terminal {
 
     //protected Transporter transporter;
-    protected static StorePrintStream SystemOut = new StorePrintStream(System.out);
+    protected static Log4J2 SystemOut = new Log4J2(System.out);
     protected Scanner scan;
     protected CommandWithPars add;
     protected Command show;
@@ -47,36 +42,25 @@ public abstract class Terminal {
     protected Map<String, String> bufferMap;
     protected String[] bufferStringForArgs;
     /**
-
      * @param res_ Receiver
-
      */
-
     public Terminal(receiver res_) {
         this.res=res_;
     }
 
     /**
-
      * @param rec_ Receiver
-
      * @param scanner Scanner
-
      */
-
     public Terminal(receiver rec_, Scanner scanner) {
         this.scan=scanner;
         this.res=rec_;
     }
     /**
-
      * перейти в интерактивный режим
-
+     * @param del Символ приглашения к вводу
      * @throws FileNotFoundException файл не найден
-
      */
-
-
     public void startWorking(String del) throws FileNotFoundException {
         while (true) {
 

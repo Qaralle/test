@@ -8,6 +8,10 @@ import ServerPackage.IWillNameItLater.WrongTypeOfFieldException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Класс, заполняющий поля для команд
+ * @author Maxim Antonov and Andrey Lyubkin
+ */
 public class FieldSetter {
     protected Scanner scan;
     private String sb;
@@ -35,6 +39,10 @@ public class FieldSetter {
     protected String[] buffer;
     protected String catchN;
 
+    /**
+     * Основной метод класса, заполняющий поля для команд
+     * @throws WrongTypeOfFieldException Исключение, вызванное неверным типов поля
+     */
     public void setFields() throws WrongTypeOfFieldException {
 
         scan = new Scanner(System.in);

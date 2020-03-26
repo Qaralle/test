@@ -3,7 +3,7 @@ import ColClass.Person;
 import ServerPackage.CollectionUnit;
 import ServerPackage.IWillNameItLater.WrongTypeOfFieldException;
 import ServerPackage.IWillNameItLater.receiver;
-import ServerPackage.StorePrintStream;
+import ServerPackage.Log4J2;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -13,9 +13,12 @@ import java.nio.channels.*;
 import java.util.*;
 import java.util.stream.Stream;
 
+/**
+ * Класс для запуская приложения сервера
+ */
 public class ServerMain
 {
-    private static StorePrintStream SustemOut = new StorePrintStream(System.out);
+    private static Log4J2 SustemOut = new Log4J2(System.out);
     private static final String hui = "hui";
     private static CollectionTask collectionTask;
     private static receiver CU;
@@ -65,6 +68,13 @@ public class ServerMain
 
     }
 
+    /**
+     * Метод, реализующий взаимодействие сервера с запросом
+     * @param buffer буфер типа ByteBuffer
+     * @param key SelectionKey для работы с несколькими клиентами
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private static void action(ByteBuffer buffer, SelectionKey key) throws IOException, InterruptedException {
 
         DatagramChannel channel = (DatagramChannel)key.channel();

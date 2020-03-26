@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * Абстрактный класс, выполняющий функци инвокера
+ * Класс, реализующий проверку команд на валидность и отправку их на сервер
  * @author Maxim Antonov and Andrey Lyubkin
  */
 public class Validator3000 implements invoker {
@@ -37,6 +37,13 @@ public class Validator3000 implements invoker {
         scan=new Scanner(System.in);
     }
 
+    /**
+     * Метод перехода в интерактивный режим
+     * @param del Символ для приглашения к вводу
+     * @throws IOException Ошибка файла
+     * @throws SocketException Не найден сокет
+     * @throws UnknownHostException Неизвестный хост
+     */
     @Override
     public void interactiveMod(String del) throws IOException, SocketException, UnknownHostException {
 

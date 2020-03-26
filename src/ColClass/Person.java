@@ -25,7 +25,7 @@ public class Person implements Comparable<Person>{
     private Country nationality; //Поле может быть null
     public Location location; //Поле может быть null
 
-
+///
     private static long setID() {
 
         long id = System.currentTimeMillis() % LIMIT;

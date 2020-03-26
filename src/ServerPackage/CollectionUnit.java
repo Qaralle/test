@@ -18,7 +18,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
-import java.util.Iterator;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -28,7 +27,7 @@ import java.util.stream.Stream;
  */
 public class CollectionUnit implements receiver {
 
-    private static StorePrintStream SystemOut = new StorePrintStream(System.out);
+    private static Log4J2 SystemOut = new Log4J2(System.out);
     private CollectionTask ct;
     private CompareCenter compareCenter;
     private CoordinatesMaker cm;

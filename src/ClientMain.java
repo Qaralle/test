@@ -1,5 +1,8 @@
 import ClientPackage.Validator3000;
 
+/**
+ * Класс для запуска приложения клиента
+ */
 public class ClientMain
 {
     public static void main(String args[]) throws Exception
@@ -7,10 +10,6 @@ public class ClientMain
 
         Validator3000 terminal = new Validator3000();
         terminal.interactiveMod("$");
-
-/*        BufferedReader inFromUser =
-                new BufferedReader(new InputStreamReader(System.in));*/
-
 
     }
 }

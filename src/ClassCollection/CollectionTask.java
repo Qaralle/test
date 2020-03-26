@@ -167,10 +167,22 @@ public class CollectionTask {
         Collections.sort(collection,new CompareCenter());
     }
 
+    /**
+     * Возвращает дату инициализации
+     * @return Дата инициализации в формате 00.00.0000
+     */
     public String getDateInit(){ return dateInit;}
 
+    /**
+     * Возвращает последние команды (максимум 8)
+     * @return Массив типа String
+     */
     public String[] getHistoryOfCommands(){return historyOfCommands;}
 
+    /**
+     * Возвращает коллекцию команд
+     * @return Коллекция типа Map от String, Command
+     */
     public Map<String, Command> getCommandMap(){ return commandMap;}
 }
 
